@@ -1,113 +1,48 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
-#include "boolean.h"
-#include "getinfo.h"
-
-
-char *getprompt() {
-  size_t size = 256;
-  char *str = (char *)malloc(size * sizeof(char));
-  char c = 0;
-  size_t i = 0;
-
-  size_t len_chars = sizeof(char) * 1024 * 8;
-  char *cwd = malloc(len_chars);
-  printf("%s@%s:%s $ ", getenv("USER"), getenv("HOST"),
-         get_this_dir(cwd, len_chars));
-
-  free(cwd);
-  cwd = NULL;
-
-  boolean active = true;
-  while (active) {
-    if (i + 1 == size) {
-      size *= 2;
-      str = (char *)realloc(str, sizeof(char) * size);
-    }
-
-    c = getchar();
-    switch (c) {
-    case EOF:
-      active = false;
-      break;
-    case 0:
-      active = false;
-      break;
-    case '\\':
-      i--;
-      getchar();
-      break;
-
-    case '\n':
-      active = false;
-      break;
-
-    default:
-      str[i] = c;
-      break;
-    }
-
-    if (active)
-      i++;
-  }
-
-  str[i] = 0;
-  return str;
-}
-
-char **split_prompt(char *input) {
-  char *delim = " ";
-  size_t size = 8;
-  char **outarr = (char **)malloc(sizeof(char *) * size);
-
-  size_t i = 0;
-  char *tok = strtok(input, delim);
-  while (tok) {
-    if (i + 1 == size) {
-      size *= 2;
-      outarr = (char **)realloc(outarr, size * sizeof(char **));
-    }
-
-    outarr[i] = tok;
-    i++;
-    tok = strtok(NULL, delim);
-  }
-  outarr[i] = tok;
-  return outarr;
-}
+#include "ilish.h"
 
 int main() {
-  char *input;
-  pid_t pid;
-  char **inarg;
+	int status = 0;
+	while (true) {
+		show_prompt(status);
+		char *user_input = get_prompt();
+		fflush(stdin);
 
-  while (true) {
-    input = getprompt();
-    fflush(stdin);
-    inarg = split_prompt(input);
+		char **input_split_args = split_prompt(user_input);
 
-    if (!strcmp(inarg[0], "exit")) {
-      exit(0);
-    } else if (!strcmp(inarg[0], "cd")) {
-      chdir(inarg[1]);
-    } else {
-      if (pid = fork()) {
-        wait(NULL);
-      } else {
-        if (execvp(inarg[0], inarg) == -1) {
-          fprintf(stderr, "Command '%s' not found.\n", inarg[0]);
-          break;
-        }
-      }
-    }
+		if (!strcmp(input_split_args[0], "exit")) {
+			if (input_split_args[1]) {
+				exit(atoi(input_split_args[1]));
+			} else {
+				exit(0);
+			}
+		} else if (!strcmp(input_split_args[0], "cd")) {
+			chdir(input_split_args[1]);
+		} else {
+			pid_t pid = fork();
 
-    free(inarg);
-    inarg = NULL;
-    free(input);
-    input = NULL;
-  }
+			if (pid == 0) {
+				if (execvp(input_split_args[0], input_split_args) == -1) {
+					fprintf(stderr, "Command '%s' not found.\n",
+					        input_split_args[0]);
+					exit(EXIT_FAILURE);
+				}
+			} else if (pid > 0) {
+				waitpid(pid, &status, 0);
+			} else {
+				perror("Process creation failed\n");
+				exit(EXIT_FAILURE);
+			}
+		}
+
+		free(input_split_args);
+		free(user_input);
+	}
 }
