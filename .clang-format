@@ -1,6 +1,6 @@
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 Language                                  : Cpp
-BasedOnStyle                              : Google 
+BasedOnStyle                              : Google
 Standard                                  : Auto
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 # AccessModifierOffset                      : -4

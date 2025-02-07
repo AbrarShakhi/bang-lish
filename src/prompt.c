@@ -1,10 +1,12 @@
+#include "prompt.h"
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "ilish.h"
 
-void show_prompt(int st) {
+void show_prompt(int status) {
 	size_t len_chars = sizeof(char) * 256 * 8;
 	char *cwdbuffer = malloc(len_chars);
 	if (!cwdbuffer) {
@@ -15,7 +17,7 @@ void show_prompt(int st) {
 	char *hostname = get_hostname();
 	char *working_dir = get_current_working_dir();
 
-	printf("[%d]%s@%s:%s %% ", st, username, hostname, working_dir);
+	printf("[%d] %s@%s:%s %% ", status, username, hostname, working_dir);
 
 	free(hostname);
 	free(working_dir);

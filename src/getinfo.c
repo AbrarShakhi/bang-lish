@@ -1,3 +1,5 @@
+#include "getinfo.h"
+
 #include <stdlib.h>
 #include <unistd.h>
 
