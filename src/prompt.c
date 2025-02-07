@@ -1,10 +1,8 @@
-#include "prompt.h"
-
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "ilish.h"
+#include "banglish.h"
 
 void show_prompt(int status) {
 	size_t len_chars = sizeof(char) * 256 * 8;

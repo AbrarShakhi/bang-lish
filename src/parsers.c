@@ -1,9 +1,7 @@
-#include "parsers.h"
-
 #include <stdlib.h>
 #include <string.h>
 
-#include "ilish.h"
+#include "banglish.h"
 
 char **split_prompt(char *input) {
 	char *delim = " \t\n";

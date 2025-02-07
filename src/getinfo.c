@@ -1,9 +1,7 @@
-#include "getinfo.h"
-
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "ilish.h"
+#include "banglish.h"
 
 char *get_current_working_dir() {
 	size_t size = 1024 * 8;

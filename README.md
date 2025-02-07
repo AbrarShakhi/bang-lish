@@ -1,4 +1,4 @@
-# ilish
+# Bang-Lish
 
 Linux shell in C
 
@@ -9,9 +9,9 @@ Linux shell in C
 Clone this repo and open this project
 
 ```sh
-git clone https://github.com/abrarshakhi/ilish.git
+git clone https://github.com/abrarshakhi/bang-lish.git
 
-cd ilish
+cd bang-lish
 ```
 
 Create a build dir if not exists and open it
@@ -34,8 +34,8 @@ if succesfull the do
 make
 ```
 
-there should be a executable file named `ilish`, Run it
+there should be a executable file named `banglish`, Run it
 
 ```sh
-./ilish
+./banglish
 ```
