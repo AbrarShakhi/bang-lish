@@ -13,9 +13,32 @@ void show_prompt(int status) {
 	}
 	char *username = get_username();
 	char *hostname = get_hostname();
-	char *working_dir = get_current_working_dir();
+	char *working_dir = get_current_home_relative_working_dir();
 
-	printf("[%d] %s@%s:%s %% ", status, username, hostname, working_dir);
+	printf(BANGLISH_RESET_COLOR);
+	printf("[");
+	printf(BANGLISH_FG_RED_COLOR);
+	printf("%d", status);
+	printf(BANGLISH_RESET_COLOR);
+	printf("] ");
+
+	printf(BANGLISH_FG_GREEN_COLOR);
+	printf("%s", username);
+
+	printf(BANGLISH_RESET_COLOR);
+	printf("@");
+
+	printf(BANGLISH_FG_BLUE_COLOR);
+	printf("%s", hostname);
+
+	printf(BANGLISH_RESET_COLOR);
+	printf(": ");
+
+	printf(BANGLISH_FG_YELLOW_COLOR);
+	printf("%s", working_dir);
+
+	printf(BANGLISH_RESET_COLOR);
+	printf(" %% ");
 
 	free(hostname);
 	free(working_dir);

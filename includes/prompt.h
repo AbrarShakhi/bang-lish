@@ -4,4 +4,4 @@
 void show_prompt(int status);
 char *get_prompt();
 
-#endif
+#endif  // !PROMPT_H

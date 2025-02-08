@@ -12,4 +12,4 @@ static int (*builtin_func[])(char *const argv[]) = {
 
 int builtin_func_len();
 
-#endif
+#endif  // !BUILDIN_H

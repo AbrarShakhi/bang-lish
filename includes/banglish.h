@@ -2,8 +2,9 @@
 #define BANG_LISH_H
 
 #include "buildin.h"
+#include "colors.h"
 #include "getinfo.h"
 #include "parsers.h"
 #include "prompt.h"
 
-#endif
+#endif  // !BANG_LISH_H
