@@ -10,11 +10,15 @@ int banglish_cd(char *const argv[]) {
 	if (argv[1]) {
 		if (chdir(argv[1]) != 0) {
 			fprintf(stderr, "banglish: no such directory\n");
+			return -1;
 		}
 	} else {
-		fprintf(stderr, "banglish: expected argument to \"cd\"\n");
-		return -1;
+		if (chdir(getenv("HOME")) != 0) {
+			fprintf(stderr, "banglish: no such directory\n");
+			return -1;
+		}
 	}
+	return 0;
 }
 
 int banglish_exit(char *const argv[]) {
