@@ -9,6 +9,10 @@
 #include "banglish.h"
 
 void execute(char **args, int *status) {
+	if (!args[0]) {
+		return;
+	}
+
 	for (size_t i = 0; i < builtin_func_len(); i++) {
 		if (strcmp(args[0], builtin_str[i]) == 0) {
 			*status = (*builtin_func[i])(args);

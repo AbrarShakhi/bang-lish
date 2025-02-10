@@ -6,11 +6,16 @@ Linux shell in C
 
 ## Build and test this project
 
+Install build dependencies
+
+```sh
+sudo apt install gcc cmake make # On Ubuntu
+```
+
 Clone this repo and open this project
 
 ```sh
 git clone https://github.com/abrarshakhi/bang-lish.git
-
 cd bang-lish
 ```
 
@@ -18,7 +23,6 @@ Create a build dir if not exists and open it
 
 ```sh
 mkdir build
-
 cd build
 ```
 
