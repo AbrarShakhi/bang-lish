@@ -7,16 +7,13 @@
 int builtin_func_len() { return sizeof(builtin_str) / sizeof(char *); }
 
 int banglish_cd(char *const argv[]) {
-	if (argv[1]) {
-		if (chdir(argv[1]) != 0) {
-			fprintf(stderr, "banglish: no such directory\n");
-			return -1;
-		}
-	} else {
-		if (chdir(getenv("HOME")) != 0) {
-			fprintf(stderr, "banglish: no such directory\n");
-			return -1;
-		}
+	char *target = argv[1];
+	if (!target) {
+		target = getenv("HOME");
+	}
+	if (chdir(target) != 0) {
+		fprintf(stderr, "banglish: no such directory\n");
+		return -1;
 	}
 	return 0;
 }

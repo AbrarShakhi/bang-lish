@@ -1,3 +1,4 @@
+#include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,18 +9,17 @@
 
 #include "banglish.h"
 
-void execute(char **args, int *status) {
-	if (!args[0]) {
-		return;
-	}
-
+bool exec_buildin(char **args, int *status) {
 	for (size_t i = 0; i < builtin_func_len(); i++) {
 		if (strcmp(args[0], builtin_str[i]) == 0) {
 			*status = (*builtin_func[i])(args);
-			return;
+			return true;
 		}
 	}
+	return false;
+}
 
+bool exec_new_proc(char **args, int *status) {
 	pid_t pid = fork();
 
 	if (pid == 0) {
@@ -33,9 +33,27 @@ void execute(char **args, int *status) {
 		perror("Process creation failed\n");
 		exit(EXIT_FAILURE);
 	}
+
+	return true;
 }
 
+void execute(char **args, int *status) {
+	if (!args[0]) {
+		return;
+	}
+	if (exec_buildin(args, status)) {
+		return;
+	}
+	if (exec_new_proc(args, status)) {
+		return;
+	}
+}
+
+void handle_sigint() {}
+
 int main(int argc, char const *argv[]) {
+	signal(SIGINT, handle_sigint);
+
 	int status = 0;
 	while (true) {
 		show_prompt(status);

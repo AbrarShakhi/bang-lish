@@ -1,16 +1,29 @@
+#include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <termios.h>
+#include <unistd.h>
 
 #include "banglish.h"
 
+char getch_noecho() {
+	struct termios old, current;
+
+	tcgetattr(STDIN_FILENO, &old);
+	current = old;
+
+	current.c_lflag |= (~ICANON | ~ECHO);
+	tcsetattr(STDIN_FILENO, TCSANOW, &current);
+
+	char ch = 0;
+	ch = getchar();
+
+	tcsetattr(STDIN_FILENO, TCSANOW, &old);
+	return ch;
+}
+
 void show_prompt(int status) {
-	size_t len_chars = sizeof(char) * 256 * 8;
-	char *cwdbuffer = malloc(len_chars);
-	if (!cwdbuffer) {
-		perror("Memory allocation failed\n");
-		exit(EXIT_FAILURE);
-	}
 	char *username = get_username();
 	char *hostname = get_hostname();
 	char *working_dir = get_current_home_relative_working_dir();
@@ -79,7 +92,8 @@ char *get_prompt() {
 				break;
 		}
 
-		if (active) i++;
+		if (active)
+			i++;
 	}
 
 	str[i] = 0;

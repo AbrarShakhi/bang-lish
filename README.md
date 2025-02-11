@@ -23,23 +23,23 @@ Create a build dir if not exists and open it
 
 ```sh
 mkdir build
-cd build
 ```
 
 then do
 
 ```sh
-cmake ..
+cmake -B build
 ```
 
 if succesfull the do
 
 ```sh
-make
+make -C build
 ```
 
-there should be a executable file named `banglish`, Run it
+there should be a executable file named `banglish` onn build dir, Run it
 
 ```sh
-./banglish
+./build/banglish
 ```
+
