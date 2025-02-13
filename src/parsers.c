@@ -1,11 +1,27 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "banglish.h"
 
-char **split_prompt(char *input) {
-	char *delim = " \t\r\n";
+
+static char *operators[] = {
+    ";", "&", "|", "\n", "\r", "&&", "||", ">", "<", ">>", NULL,
+};
+
+char *delim = " \t\r\n";
+
+int which_op(char *str) {
+	for (size_t i = 0; operators[i]; i++) {
+		if (strcmp(str, operators[i]) == 0) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+char **parseargs(char *input) {
 	size_t capacity = 8;
 	char **outarr = (char **)malloc(sizeof(char *) * capacity);
 
@@ -23,16 +39,4 @@ char **split_prompt(char *input) {
 	}
 	outarr[i] = tok;
 	return outarr;
-}
-
-struct statement *parseargs(char *input) {
-	char **splited = split_prompt(input);
-
-	size_t capacity = 2;
-	size_t i = 0;
-	struct statement *stat =
-	    (struct statement *)malloc(sizeof(struct statement) * capacity);
-
-
-	return stat;
 }

@@ -1,10 +1,9 @@
-#ifndef BANG_LISH_H
-#define BANG_LISH_H
+#pragma once
 
 #include "buildin.h"
 #include "colors.h"
+#include "execute.h"
 #include "getinfo.h"
 #include "parsers.h"
 #include "prompt.h"
-
-#endif  // !BANG_LISH_H
+#include "utils.h"

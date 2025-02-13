@@ -1,15 +1,6 @@
-#ifndef PARSERS_H
-#define PARSERS_H
+#pragma once
 
 #include <stdbool.h>
 
-struct statement {
-	char **cmdarg;
-	bool is_operator;
-	bool need_freeing;
-};
 
-char **split_prompt(char *input);
-struct statement *parseargs(char *input);
-
-#endif  // !PARSERS_H
+char **parseargs(char *input);

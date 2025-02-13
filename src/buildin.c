@@ -31,3 +31,12 @@ int banglish_help(char *const argv[]) {
 	printf("Help unavailable");
 	return -1;
 }
+
+int banglish_exec(char *const argv[]) {
+	argv++;
+	if (execvp(argv[0], argv) == -1) {
+		fprintf(stderr, "Command '%s' not found.\n", argv[0]);
+		return EXIT_FAILURE;
+	}
+	return EXIT_SUCCESS;
+}
