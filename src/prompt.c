@@ -53,13 +53,13 @@ void show_prompt(int status) {
 	printf(BANGLISH_RESET_COLOR);
 	printf(" %% ");
 
-	free(hostname);
-	free(working_dir);
+	free_ifnotnull_and_setnull(hostname);
+	free_ifnotnull_and_setnull(working_dir);
 }
 
 char *get_prompt() {
 	size_t size = 256;
-	char *str = (char *)malloc(size * sizeof(char));
+	char *str = (char *)malloc_with_err(size * sizeof(char), NULL);
 	char c = 0;
 	size_t i = 0;
 
@@ -67,7 +67,7 @@ char *get_prompt() {
 	while (active) {
 		if (i + 1 == size) {
 			size *= 2;
-			str = (char *)realloc(str, sizeof(char) * size);
+			str = realloc_with_err(str, sizeof(char) * size, NULL);
 		}
 
 		c = getchar();
@@ -97,5 +97,6 @@ char *get_prompt() {
 	}
 
 	str[i] = 0;
+	str = realloc_with_err(str, i + 1 * sizeof(char *), NULL);
 	return str;
 }

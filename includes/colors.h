@@ -1,6 +1,4 @@
-
-#ifndef COLORS_H
-#define COLORS_H
+#pragma once
 
 #define BANGLISH_RESET_COLOR "\033[0m"
 
@@ -11,5 +9,3 @@
 #define BANGLISH_FG_BLUE_COLOR "\033[34m"
 
 #define BANGLISH_BG_MAGENTA_COLOR "\033[45m"
-
-#endif  // !COLORS_H

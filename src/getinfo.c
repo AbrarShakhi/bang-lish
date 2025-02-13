@@ -5,7 +5,7 @@
 
 char *get_current_working_dir() {
 	size_t size = 1024 * 8;
-	char *buff = malloc(size + 1);
+	char *buff = malloc_with_err(size + 1, NULL);
 	if (getcwd(buff, size) != NULL) {
 		return buff;
 	} else {
@@ -24,7 +24,7 @@ char *get_username() {
 
 char *get_hostname() {
 	size_t size = 256 * 8;
-	char *buff = malloc(size);
+	char *buff = malloc_with_err(size, NULL);
 	if (gethostname(buff, size) == 0) {
 		return buff;
 	}
@@ -44,7 +44,7 @@ char *get_current_home_relative_working_dir() {
 			i++;
 		}
 		size_t str_size = 1024 * 8;
-		char *relative_path = (char *)malloc(str_size + 1);
+		char *relative_path = (char *)malloc_with_err(str_size + 1, NULL);
 		size_t k = 0;
 		relative_path[k] = '~';
 		while (full_path[i]) {
@@ -52,7 +52,7 @@ char *get_current_home_relative_working_dir() {
 			relative_path[k] = full_path[i];
 			i++;
 		}
-		free(full_path);
+		free_ifnotnull_and_setnull(full_path);
 		return relative_path;
 	}
 
